@@ -14,7 +14,7 @@
  */
 export default class UserTable {
   constructor(rows) {
-    this.elem = document.createElement('table');
+    this.elem = document.createElement("table");
     this.elem.innerHTML = `
     <thead>
       <tr>
@@ -25,18 +25,32 @@ export default class UserTable {
         <th></th>
       </tr>
   </thead>`;
-  `<tbody>
+
+    this.rows = rows;
+    let row = this.rows
+      .map(function (item) {
+        return `
     <tr>
-      <td>"${rows.name}"</td>
-      <td>"${rows.age}"</td>
-      <td>"${rows.salary}"</td>
-      <td>"${rows.city}"</td>
+      <td>${item.name}</td>
+      <td>${item.age}</td>
+      <td>${item.salary}</td>
+      <td>${item.city}</td>
       <td><button>X</button></td>
-    </tr>
-</tbody>`
-  }
+    </tr>`;
+      })
+      .join("");
 
+    this.elem.innerHTML += `
+   <tbody>
+    ${row}
+   </tbody>`;
 
+   this.elem.addEventListener('click', (event) => {
+    if (event.target.tagName != 'BUTTON') 
+      return;
+    
+    let tr = event.target.closest('tr');
+    tr.remove();
+  });
 }
-
-
+}
